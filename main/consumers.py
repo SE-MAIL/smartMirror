@@ -25,22 +25,31 @@ class MirrorConsumer(WebsocketConsumer):
     # Receive message from WebSocket
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
-        message = text_data_json['message']
+        time = text_data_json['time']
+        isOpen = text_data_json['isOpen']
+        response = text_data_json['response']
+
 
         # Send message to room group
         async_to_sync(self.channel_layer.group_send)(
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': message
+                'time': time,
+                'isOpen': isOpen,
+                'response': response
             }
         )
 
     # Receive message from room group
     def chat_message(self, event):
-        message = event['message']
+        time = event['time']
+        isOpen = event['isOpen']
+        response = event['response']
 
         # Send message to WebSocket
         self.send(text_data=json.dumps({
-            'message': message
+            'time': time,
+            'isOpen' : isOpen,
+            'response': response
         }))

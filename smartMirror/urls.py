@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from main.views import room
+from main.views import room, test
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('mirror/<str:room_name>/', room, name='room'),
-
+    path('test', test)
 ]
