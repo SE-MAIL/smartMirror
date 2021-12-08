@@ -70,20 +70,8 @@
         }
 
         //타임아웃 시
-	  if (time < 300) {
-        document.getElementById('box').style.backgroundColor = 'orange';
-      }
-      if (time < 295) {
-        document.getElementById('box').style.backgroundColor = 'black';
-      }
-	  if (time < 180) {
-        document.getElementById('box').style.backgroundColor = 'orange';
-      }
-      if (time < 175) {
-        document.getElementById('box').style.backgroundColor = 'black';
-      }
       if (time < 60) {
-        document.getElementById('box').style.backgroundColor = 'red';
+        document.getElementById('box').style.backgroundColor = 'orange';
       }
       if (time < 55) {
         document.getElementById('box').style.backgroundColor = 'black';
@@ -92,12 +80,6 @@
         document.getElementById('box').style.backgroundColor = 'red';
       }
       if (time < 25) {
-        document.getElementById('box').style.backgroundColor = 'black';
-      }
-      if (time < 10) {
-        document.getElementById('box').style.backgroundColor = 'red';
-      }
-      if (time < 5) {
         document.getElementById('box').style.backgroundColor = 'black';
       }
         }
