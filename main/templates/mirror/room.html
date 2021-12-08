@@ -1,0 +1,100 @@
+<!-- chat/templates/chat/room.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>smart mirror</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="clock.css" />
+    <script src="main.js"></script>
+    <script src="timer.js"></script>
+    <script src="timeout.js"></script>
+</head>
+<body id='box' class='box'>
+    <div id='container' class='container'>
+        <div id="date" class="date"></div>
+        <div id="time" class="time">
+            
+        </div>
+        <h1 class = "h1-clock"></h1>
+        <div id='timer' class='timer'></div>
+        </div>
+    </div>
+    <script src = "clock.js"></script>
+
+    {{ room_name|json_script:"room-name" }}
+    <script>
+        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+        const chatSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/ws/mirror/'
+            + roomName
+            + '/'
+        );
+
+
+        var time = 65; //기준시간 작성
+        var min = ""; //분
+        var sec = ""; //초
+
+        function timer() {
+        //parseInt() : 정수를 반환
+        min = parseInt(time/60); //몫을 계산
+        sec = time%60; //나머지를 계산
+
+        document.getElementById("timer").innerHTML = min + "분" + sec + "초";
+        time--;
+
+        //타임아웃 시
+        if (time < 60) {
+            document.getElementById('box').style.backgroundColor = 'orange';
+        }
+        if (time < 30) {
+            document.getElementById('box').style.backgroundColor = 'red';
+        }
+        if (time < 0) {
+            clearInterval(x); //setInterval() 실행을 끝냄
+            document.getElementById("timer").innerHTML = "시간초과";
+            document.getElementById('box').style.backgroundColor = 'red';
+            setTimeout(timeout, 5000)
+        }
+        }
+
+        const clock = document.querySelector('.h1-clock');
+
+
+        function getTime(){
+        const time = new Date();
+        console.log('hello');
+        const hour = time.getHours();
+        const minutes = time.getMinutes();
+        const seconds = time.getSeconds();
+        clock.innerHTML = `${hour<10 ? `0${hour}`:hour}:${minutes<10 ? `0${minutes}`:minutes}:${seconds<10 ? `0${seconds}`:seconds}`
+}
+    
+        //setInterval(함수, 시간) : 주기적인 실행
+        setInterval(function(){
+            //timer();
+            getTime();
+        }, 1000);
+
+
+    </script>
+</body>
+</html>
+
+<!--  -->
+
+<!-- const chatSocket = new WebSocket(
+    'ws://'
+    + window.location.host
+    + '/ws/mirror/'
+    + roomName
+    + '/'
+);
+
+chatSocket.send(JSON.stringify({
+    'message': message
+})); -->
